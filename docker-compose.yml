@@ -1,0 +1,26 @@
+version: '3'
+services:
+  app:  
+    build:
+      context: .
+      args:
+        - NODE_ENV=${NODE_ENV}
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    environment:
+      - DATABASE_HOST=${DB_HOST}    
+  db:
+    image: postgres:13
+    ports:
+      - ${DB_PORT}:${DB_PORT}
+    environment:
+      - POSTGRES_HOST=${DB_HOST}
+      - POSTGRES_USER=${DB_USERNAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_DATABASE}
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data/
+volumes:
+  postgres_data:
